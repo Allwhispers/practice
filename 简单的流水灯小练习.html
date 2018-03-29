@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html{
+            height: 100%;
+        }
+        body{
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .warp{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 700px;
+            height: 700px;
+        }
+        .container{
+            display: flex;
+            box-sizing: border-box;
+            justify-content: space-around;
+            height: 30%;
+            border: 1px solid #77BBDD;
+            border-radius: 5px;
+
+        }
+        .item{
+            background-color: blanchedalmond;
+            height: 100%;
+            width: 30%;
+            border-radius: 10px;
+        }
+        .btn-group{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 10%;
+            margin-bottom: -2000px;
+            padding-bottom: 2000px;
+            overflow: hidden;
+            background-color: blue;
+        }
+        .box{
+            display: flex;
+            justify-content: flex-start;
+        }
+        .btn-primary{
+            display: inline-block;
+            padding: 6px 12px;
+            margin-bottom: 0;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.42857143;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-image: none;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+        .btn-success{
+            background-color: green;
+        }
+        .btn-warn{
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <div class="btn-group">
+        <button class="btn-primary btn-success" id="start">
+            开始
+        </button>
+        <button class="btn-primary btn-warn" id="end">
+            停止
+        </button>
+    </div>
+    <div>
+        <div class="warp">
+            <div class="container">
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+            </div>
+            <div class="container">
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+            </div>
+            <div class="container">
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    //重置成原来的颜色
+    function clean() {
+        var eles = document.getElementsByClassName('item');
+        Array.prototype.slice.call(eles).map(function (value) {
+            value.style.backgroundColor = "blanchedalmond";
+        })
+    }
+    //随机的格子
+    function selectedBox(){
+        return Math.floor(Math.random()*9)
+    }
+    function randomColor(ele) {
+        var color = randomFactory();
+        ele.style.backgroundColor = color;
+    }
+
+    //产生#000000-#ffffff的随机生成数
+    function randomFactory() {
+        var num = Math.floor((Math.random()*16777215)).toString(16);
+        while(num.length < 6){
+            num = "0"+num;
+        }
+        return "#" + num
+    }
+    window.onload = function (ev) {
+        //标记是否是第一次进入点击事件
+        var firstTimer;
+        var flag = true;
+        document.getElementById("start").onclick = function () {
+            var timer =  setInterval(function () {
+                clean();
+                var boxArray = [];
+                while (boxArray.length < 3){
+                    boxArray.push(selectedBox());
+                }
+                boxArray.map(function (value) {
+                    randomColor(document.getElementsByClassName("item")[value]);
+                })
+            },1000);
+            if(flag){
+                flag = false;
+                firstTimer = timer;
+            }else {
+                console.log(timer);
+                clearInterval(timer);
+            }
+        }
+        document.getElementById("end").onclick = function () {
+            clearInterval(firstTimer);
+            clean();
+            flag = true;
+        }
+
+    }
+
+</script>
+</body>
+</html>
