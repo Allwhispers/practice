@@ -17,6 +17,7 @@ window.onload = function () {
     function appendToTime(type,ele) {
         ele.innerHTML ="";
         var hourNode = document.createElement("span");
+        type = type.toString().length == 2 ? type : "0" + type;
         hourNode.innerHTML = (ele == document.getElementById("second") ? type  : type + ':');
         ele.appendChild(hourNode);
     }
